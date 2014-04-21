@@ -15,8 +15,36 @@ call vundle#rc()
 "call vundle#rc(path)
 
 " let Vundle manage Vundle, required
-Bundle 'gmarik/vundle'
-Bundle 'gcmt/breeze.vim'
+Plugin 'gmarik/vundle'
+Plugin 'jlanzarotta/bufexplorer'
+" Plugin 'guileen/vim-node' " generates an error.
+
+" colorschemes
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'Lokaltog/vim-distinguished'
+
+Plugin 'godlygeek/tabular'
+Plugin 'vim-scripts/IndexedSearch'
+Plugin 'scrooloose/syntastic'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'gcmt/breeze.vim'
+imap <C-c> <CR><Esc>O
+
+Plugin 'Valloric/YouCompleteMe'
+" These are the tweaks I apply to YCM's config, you don't need them but they might help.
+" YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
+"let g:ycm_add_preview_to_completeopt=0
+"let g:ycm_confirm_extra_conf=0
+"set completeopt-=preview
+
+Plugin 'marijnh/tern_for_vim'
+
+
+
 
 
 autocmd!
@@ -240,16 +268,6 @@ let $PERL5LIB ='./perl'
 "nmap <f1> <ESC>
 "imap <f1> <ESC>
 
-"colorscheme slate 
-"set t_Co=256
-
-" conque
-let g:ConqueTerm_FastMode = 0
-let g:ConqueTerm_Color = 1
-"let g:ConqueTerm_InsertOnEnter = 1
-let g:ConqueTerm_CloseOnEnd = 0
-let g:ConqueTerm_TERM = 'xterm-256color'
-
 " align
 "AlignCtrl =lp1P1I 
 
@@ -265,9 +283,12 @@ set path=,,.,CK/**,perl/**,tt/**,app/**,public/**
 set isfname-=:
 
 
-
-" matchit (included in vim6.0+)
-source ~/.vim/plugin/matchit.vim
+" syntax highlighting
+set t_Co=256
+syntax on
+set background=dark
+colorscheme jellybeans
+"colorscheme distinguished
 
 " closetags
 let g:closetag_html_style=1 
@@ -280,19 +301,4 @@ set dict=/usr/share/dict/words
 "map <Down> <Nop>
 
 execute pathogen#infect()
-
-
-if has("gui_macvim") 
-    set transparency=15
-    let g:solarized_contrast="high"
-    let g:solarized_termtrans=1
-    let g:solarized_visibility="high"
-    set background=dark     " you can use `dark` or `light` as your background
-    colorscheme solarized
-
-else
-    color mango
-    set background=dark     " you can use `dark` or `light` as your background
-endif 
-
 
