@@ -24,7 +24,6 @@ Plugin 'nanotech/jellybeans.vim'
 Plugin 'Lokaltog/vim-distinguished'
 
 Plugin 'godlygeek/tabular'
-Plugin 'vim-scripts/IndexedSearch'
 Plugin 'scrooloose/syntastic'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
