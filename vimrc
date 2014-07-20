@@ -8,10 +8,8 @@ set nocompatible
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" alternatively, pass a path where Vundle should install bundles
-"let path = '~/some/path/here'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 "call vundle#rc(path)
 
 " let Vundle manage Vundle, required
@@ -43,7 +41,9 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'marijnh/tern_for_vim'
 
 
-
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 
 autocmd!
@@ -299,5 +299,5 @@ set dict=/usr/share/dict/words
 "map <Up> <Nop>
 "map <Down> <Nop>
 
-execute pathogen#infect()
+"execute pathogen#infect()
 
