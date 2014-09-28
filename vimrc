@@ -22,24 +22,27 @@ Plugin 'nanotech/jellybeans.vim'
 Plugin 'Lokaltog/vim-distinguished'
 
 Plugin 'godlygeek/tabular'
-Plugin 'scrooloose/syntastic'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'gcmt/breeze.vim'
+Plugin 'scrooloose/syntastic'
 imap <C-c> <CR><Esc>O
-
+Plugin 'marijnh/tern_for_vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'heavenshell/vim-jsdoc'
+
 " These are the tweaks I apply to YCM's config, you don't need them but they might help.
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
-"let g:ycm_add_preview_to_completeopt=0
-"let g:ycm_confirm_extra_conf=0
-"set completeopt-=preview
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_confirm_extra_conf=0
+set completeopt-=preview
 
-Plugin 'marijnh/tern_for_vim'
 
+map <silent> ,F  :Autoformat<CR>
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -85,7 +88,7 @@ set shiftround
 
 set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]  
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 set ls=2
 
@@ -106,16 +109,16 @@ filetype plugin on    " Enable filetype-specific plugins
 "hi MBEVisibleNormal guibg=yellow guifg=red
 "hi MBEVisibleChanged guibg=blue guifg=red
 
- 
+
 function! RunFindRef()
     let word = expand("<cword>")
 
     echo "running...findref " . word 
 
-    let cmd = "/usr/local/bin/ggrep  -srnw --binary-files=without-match --exclude-dir=.git --exclude-from=.gitignore " . word
+    let cmd = "/usr/local/bin/ggrep  -srnw --binary-files=without-match --exclude-dir=.git  --exclude-dir=browser-extensions --exclude-from=.gitignore --exclude-dir=coverage " . word
 
     botright new
-"    execute 'file find_ref_' . word 
+    "    execute 'file find_ref_' . word 
 
     setlocal buftype=nofile nobuflisted noswapfile nowrap
     setlocal isfname-=:
@@ -139,8 +142,8 @@ function! RunQuery()
 
     botright new
     setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-"    call setline(1, 'Bibliosoft Query    ' . line)
-"    call setline(2,substitute(getline(1),'.','=','g'))
+    "    call setline(1, 'Bibliosoft Query    ' . line)
+    "    call setline(2,substitute(getline(1),'.','=','g'))
 
     execute '$read !'. cmd
     setlocal nomodifiable
@@ -196,6 +199,7 @@ au BufRead,BufNewFile *.haml,*rb,*jade	set shiftwidth =2         " ruby's styles
 "au BufRead,BufNewFile *.html	source ~/.vim/scripts/closetag.vim 
 "au BufRead,BufNewFile *.html	source ~/.vim/ftplugin/tt.vim
 
+" autoformat when save
 au BufWritePost *.tt :silent ! (cd ./deployment/; make devel > /dev/null;)& 
 au BufWritePost *.pm :silent ! (/cinemaki/utils/restart.sh > /dev/null)& 
 au BufWritePost *.bb :silent ! (/cinemaki/utils/restart.sh > /dev/null)& 
