@@ -34,6 +34,8 @@ Plugin 'marijnh/tern_for_vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'heavenshell/vim-jsdoc'
+Plugin 'gregsexton/MatchTag'
+Plugin 'tmhedberg/matchit'
 
 " These are the tweaks I apply to YCM's config, you don't need them but they might help.
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
