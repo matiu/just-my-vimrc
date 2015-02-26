@@ -32,10 +32,10 @@ Plugin 'scrooloose/syntastic'
 imap <C-c> <CR><Esc>O
 Plugin 'marijnh/tern_for_vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'Chiel92/vim-autoformat'
+Plugin 'maksimr/vim-jsbeautify'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'gregsexton/MatchTag'
-Plugin 'tmhedberg/matchit'
+Plugin 'vim-scripts/matchit.zip'
 
 " These are the tweaks I apply to YCM's config, you don't need them but they might help.
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
@@ -44,7 +44,10 @@ let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
 
 
-map <silent> ,F  :Autoformat<CR>
+map <silent> ,F  :call JsBeautify()<CR>
+
+
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -117,7 +120,7 @@ function! RunFindRef()
 
     echo "running...findref " . word 
 
-    let cmd = "/usr/local/bin/ggrep  -srnw --binary-files=without-match --exclude-dir=.git  --exclude-dir=browser-extensions --exclude-from=.gitignore --exclude-dir=coverage " . word
+    let cmd = "/usr/local/bin/ggrep  -srnw --binary-files=without-match --exclude-dir=.git --exclude-dir=doc  --exclude-dir=browser-extensions --exclude-from=.gitignore --exclude-dir=cordova --exclude-dir=coverage --exclude-dir=node_modules --exclude=*Bundle* --exclude=copayMain.js  --exclude-dir=lib " . word
 
     botright new
     "    execute 'file find_ref_' . word 
@@ -125,6 +128,7 @@ function! RunFindRef()
     setlocal buftype=nofile nobuflisted noswapfile nowrap
     setlocal isfname-=:
     execute '$read !'. cmd
+    execute 'sort u'
     execute 'm/'.word 
     setlocal nomodifiable
     1
@@ -202,16 +206,14 @@ au BufRead,BufNewFile *.haml,*rb,*jade	set shiftwidth =2         " ruby's styles
 "au BufRead,BufNewFile *.html	source ~/.vim/ftplugin/tt.vim
 
 " autoformat when save
-au BufWritePost *.tt :silent ! (cd ./deployment/; make devel > /dev/null;)& 
-au BufWritePost *.pm :silent ! (/cinemaki/utils/restart.sh > /dev/null)& 
-au BufWritePost *.bb :silent ! (/cinemaki/utils/restart.sh > /dev/null)& 
 au BufWritePost .vimrc :source ~/.vimrc
+au BufWrite *.js  :call JsBeautify()
 
 if has("unix")
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
         " options for MACOSX
-        map <F2> :! /usr/local/Cellar/ctags/5.8/bin/ctags --recurse=yes --exclude=node_modules . <CR>
+        map <F2> :! /usr/local/Cellar/ctags/5.8/bin/ctags --recurse=yes --exclude=node_modules  --exclude=cordova  --exclude=lib --exclude=coverage --exclude=browser-extensions --exclude=doc . <CR>
         map <F3> :execute "!ggrep -srnw --binary-files=without-match --exclude-dir=.git --exclude-dir=node_modules --exclude-from=.gitignore . -e " . expand("<cword>") . " " <bar> cwindow<CR>
         map <F4> :BufExplorer<CR>
         nmap <F7> :bnext<CR>
