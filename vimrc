@@ -32,7 +32,7 @@ Plugin 'scrooloose/syntastic'
 imap <C-c> <CR><Esc>O
 Plugin 'marijnh/tern_for_vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'maksimr/vim-jsbeautify'
+" Plugin 'maksimr/vim-jsbeautify'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'gregsexton/MatchTag'
 Plugin 'vim-scripts/matchit.zip'
@@ -44,7 +44,7 @@ let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
 
 
-map <silent> ,F  :call JsBeautify()<CR>
+" map <silent> ,F  :call JsBeautify()<CR>
 
 
 
@@ -87,7 +87,7 @@ syntax on
 "set autoindent
 set expandtab
 set shiftwidth =4
-set tabstop    =4         " number of spaces that a <Tab> in the file counts for
+set tabstop    =2         " number of spaces that a <Tab> in the file counts for
 set matchpairs+=<:>
 set shiftround
 
@@ -207,7 +207,7 @@ au BufRead,BufNewFile *.haml,*rb,*jade	set shiftwidth =2         " ruby's styles
 
 " autoformat when save
 au BufWritePost .vimrc :source ~/.vimrc
-au BufWrite *.js  :call JsBeautify()
+" au BufWrite *.js  :call JsBeautify()
 
 if has("unix")
     let s:uname = system("uname")
