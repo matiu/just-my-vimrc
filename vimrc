@@ -6,6 +6,7 @@ set nocompatible
 
 
 filetype off                  " required
+imap <C-c> <CR><Esc>O
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -13,31 +14,67 @@ call vundle#begin()
 "call vundle#rc(path)
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
+
+" 
 Plugin 'jlanzarotta/bufexplorer'
-" Plugin 'guileen/vim-node' " generates an error.
+
+
 
 " colorschemes
 Plugin 'nanotech/jellybeans.vim'
-Plugin 'Lokaltog/vim-distinguished'
 
-Plugin 'godlygeek/tabular'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'pangloss/vim-javascript'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'Raimondi/delimitMate'
-Plugin 'gcmt/breeze.vim'
-Plugin 'scrooloose/syntastic'
-imap <C-c> <CR><Esc>O
-Plugin 'marijnh/tern_for_vim'
-Plugin 'Valloric/YouCompleteMe'
-" Plugin 'maksimr/vim-jsbeautify'
-Plugin 'heavenshell/vim-jsdoc'
+" Color indent guides columns
+"Plugin 'nathanaelkane/vim-indent-guides'
+
+" To move in a HTML file.
+" Plugin 'gcmt/breeze.vim'
+
+" matches tag like <body> </body>
 Plugin 'gregsexton/MatchTag'
+
+" matches tag like <body> </body> with %
 Plugin 'vim-scripts/matchit.zip'
 
-" These are the tweaks I apply to YCM's config, you don't need them but they might help.
+" JAvascript 
+" Plugin 'guileen/vim-node' " generates an error.
+Plugin 'Quramy/vim-js-pretty-template'
+Plugin 'jason0x43/vim-js-indent'
+
+Plugin 'Valloric/YouCompleteMe'
+" For typescript type searchs
+"Plugin 'mhartington/vim-typings'
+Plugin 'leafgarland/typescript-vim'
+"let g:tsuquyomi_use_vimproc=1 
+"Plugin 'Quramy/tsuquyomi'
+Plugin 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'markdown'] }
+"Plugin 'Shougo/vimproc.vim'
+"
+Plugin 'scrooloose/nerdcommenter' 
+Plugin 'Shutnik/jshint2.vim'
+"let jshint2_read = 1
+"let jshint2_save = 1
+
+
+"Plugin 'rust-lang/rust.vim'
+
+" Control P for search
+Plugin 'ctrlpvim/ctrlp.vim.git'
+
+Plugin 'majutsushi/tagbar'
+
+" C++
+"Plugin 'bfrg/vim-cpp-modern'
+"Plugin 'Mizuchi/STL-Syntax'
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" ctrlp ignores
+let g:ctrlp_custom_ignore = '(node_modules|bower_components)$'
+
+
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
 let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
@@ -106,21 +143,12 @@ filetype plugin on    " Enable filetype-specific plugins
 "
 :set tags=./tags,tags
 
-" GUI
-"set guifont=Monospace\ 9
-"set guioptions-=T "hide toolbar "
-
-"set guifont=Andale\ Mono:h12
-"hi MBEVisibleNormal guibg=yellow guifg=red
-"hi MBEVisibleChanged guibg=blue guifg=red
-
-
 function! RunFindRef()
     let word = expand("<cword>")
 
     echo "running...findref " . word 
 
-    let cmd = "/usr/local/bin/ggrep  -srnw --binary-files=without-match --exclude-dir=.git --exclude-dir=doc  --exclude-dir=browser-extensions --exclude-from=.gitignore --exclude-dir=cordova --exclude-dir=coverage --exclude-dir=node_modules --exclude=*Bundle* --exclude=copayMain.js  --exclude-dir=lib " . word
+    let cmd = "/usr/local/bin/ggrep  -srnw --binary-files=without-match --exclude-dir=.git --exclude-dir=autom4te.cache --exclude-dir=doc  --exclude-dir=browser-extensions --exclude-from=.gitignore --exclude-dir=cordova --exclude-dir=coverage --exclude-dir=node_modules --exclude=*Bundle* --exclude=tags --exclude-dir=build --exclude-dir=lib " . word
 
     botright new
     "    execute 'file find_ref_' . word 
@@ -133,30 +161,6 @@ function! RunFindRef()
     setlocal nomodifiable
     1
 endfunction
-
-
-
-
-function! RunQuery()
-    let line = substitute(substitute(getline("."),'\[.*$','',''),'^[^ ]*','','')
-    let line = line[1:]
-
-
-    echo "running..." . line
-
-    let cmd = "/cinemaki/utils/test_query.pl h_" . line
-
-    botright new
-    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-    "    call setline(1, 'Bibliosoft Query    ' . line)
-    "    call setline(2,substitute(getline(1),'.','=','g'))
-
-    execute '$read !'. cmd
-    setlocal nomodifiable
-    1
-endfunction
-
-
 
 "
 " Type configs
@@ -187,23 +191,10 @@ au BufRead,BufNewFile *.tt	set filetype=tt2html
 au BufRead,BufNewFile *.tt2	set filetype=tt2html
 au BufRead,BufNewFile *.log	set filetype=apachelogs
 
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1   
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-
-
 au BufRead,BufNewFile *.js	set tabstop                =2      
 au BufRead,BufNewFile *.js	set shiftwidth             =2     
 au BufRead,BufNewFile *.haml,*rb,*jade	set tabstop    =2         " ruby's styles....
 au BufRead,BufNewFile *.haml,*rb,*jade	set shiftwidth =2         " ruby's styles....
-
-
-"au BufRead,BufNewFile *.tt	source ~/.vim/scripts/closetag.vim 
-"au BufRead,BufNewFile *.tt	source ~/.vim/ftplugin/tt.vim
-
-"au BufRead,BufNewFile *.html	source ~/.vim/scripts/closetag.vim 
-"au BufRead,BufNewFile *.html	source ~/.vim/ftplugin/tt.vim
 
 " autoformat when save
 au BufWritePost .vimrc :source ~/.vimrc
@@ -213,12 +204,11 @@ if has("unix")
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
         " options for MACOSX
-        map <F2> :! /usr/local/Cellar/ctags/5.8/bin/ctags --recurse=yes --exclude=node_modules  --exclude=cordova  --exclude=lib --exclude=coverage --exclude=browser-extensions --exclude=doc . <CR>
+        map ,t :! ctags --recurse=yes  --links=no  --exclude=node_modules  . <CR>
+        nmap ,y :TagbarToggle<CR>
         map <F3> :execute "!ggrep -srnw --binary-files=without-match --exclude-dir=.git --exclude-dir=node_modules --exclude-from=.gitignore . -e " . expand("<cword>") . " " <bar> cwindow<CR>
-        map <F4> :BufExplorer<CR>
-        nmap <F7> :bnext<CR>
-        map <F8>  :b#<CR>
-        nmap <F9> :bprev<CR>
+        nmap <F4> :TagbarToggle<CR>
+        
         map <F12> :bdelete<CR>
         nmap <D-}> :bnext<CR>
         nmap <D-{> :bprev<CR>
@@ -227,15 +217,6 @@ if has("unix")
         map <D-S-BS> :bdelete<CR>
     else  
         " options for LINUX
-        map <F2> :! ctags --recurse=yes  --links=no  --exclude=node_modules  . <CR>
-        map <A-P> :!cd ./deployment/;make clean po devel<CR> 
-        map <A-I> :!cd ./deployment/;make devel <CR> 
-        map <A-A> :!sudo /opt/local/apache2/bin/apachectl -k restart -f ./etc/apache-heavy.conf <CR>
-        map <A-C> :! perl -Iperl  -c "%" <CR>
-        nmap <A-}> :bnext<CR>
-        nmap <A-{> :bprev<CR>
-        map <A-+>  :BufExplorer<CR>
-        map <A-S-BS> :bdelete<CR>
     endif
 else
     " optiones para GUGA    
@@ -246,11 +227,9 @@ endif
 
 " PARA TODOS...
 "
-" Main extras
-map <silent> ,s :e ./htdocs/devel/cinefis.css<CR>
-map <silent> ,j :e ./htdocs/devel/cinefis.js<CR>
-
 vmap ,a  :Align => == ? :<CR>
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+
 "map <silent> ,v A<CR>[% USE Dumper; Dumper.dump_html( );%]<ESC><BS><BS><BS><BS><BS>a
 
 function! InsertConsoleLog()
@@ -267,14 +246,6 @@ map <silent> ,v :call InsertConsoleLog()<CR>
 map <silent> ,f  :call RunFindRef()<CR>
 map ,p :make <CR>
 
-" PERL help for Shift-K
-autocmd BufEnter *.pl,*.pm,*.cgi noremap <silent> K :!echo <cWORD> <cword> <bar> perl -e '$line = <STDIN>; if ($line =~ /(\w+::\w+)/){exec("perldoc $1")} elsif($line =~ /(\w+)/){exec "perldoc -f $1 <bar><bar> perldoc $1"}'<cr><cr>
-
-
-let $PERL5LIB ='./perl'    
-"nmap <f1> <ESC>
-"imap <f1> <ESC>
-
 " align
 "AlignCtrl =lp1P1I 
 
@@ -283,9 +254,6 @@ set hidden
 " command-t
 "let g:CommandTMaxHeight = 35
 set wildignore+=*.o,*.obj,.git,*.pyc,OLD,build,android,mobil,lib,iphone
-
-" configuration to Go To File (gf)
-set path=,,.,CK/**,perl/**,tt/**,app/**,public/**
 
 set isfname-=:
 
@@ -307,5 +275,17 @@ set dict=/usr/share/dict/words
 "map <Up> <Nop>
 "map <Down> <Nop>
 
-"execute pathogen#infect()
+execute pathogen#infect()
+
+set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 1
+
+"let g:syntastic_cpp_clang_tidy_args = "-- -I. -Wc++11-extensions"
+"let g:syntastic_cpp_checkers = ['clang_tidy']
 
